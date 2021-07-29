@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Rules\userLevel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -15,13 +16,15 @@ class AuthController extends Controller
         $validatedData = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed',
+            'level' => ['required' ,'string' , new userLevel]
         ]);
-        if($validatedData->fails()){
+        if($validatedData->stopOnFirstFailure()->fails()){
             return response(['errors' => $validatedData->errors()]);
         }
-        $validatedData['password'] = Hash::make($request->password);
-        $user = User::create($validatedData);
+        $ValidData=$validatedData->validated();
+        $ValidData['password'] = Hash::make($request->password);
+        $user = User::create($ValidData);
         $accessToken = $user->createToken('authToken')->accessToken;
         return response([
             'user' => $user,
