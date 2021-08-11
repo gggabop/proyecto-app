@@ -120,17 +120,21 @@ class CashOrderController extends Controller
      */
     public function destroy($id)
     {
+        //peticion para verificar la existencia del pedido
         $cashOrder = CashOrder::find($id);
         if (empty($cashOrder)) {
             return response(['Message'=>'Pedido no existe']);
         }
+        //Eliminacion del pedido de forma logica
         $cashOrder->register_status_db_cashOrder = 1;
         $cashOrder->save();
+        //Creacion del registro en el modulo de auditoria
         $datosAuditoria = ['description_aud'=> 'Eliminado de pedido numero: '.$cashOrder->id,
                             'fk_id_user'=>auth()->user()->id,
                             'action_aud'=>'borrado de pedido'];
         $auditoria = new Audit($datosAuditoria);
         $auditoria->save();
+        //respuesta de la eliminacion del registro
         return response(['Message' => 'Deleted CashOrder',
                          'CashOrder' => $cashOrder->id]);
     }

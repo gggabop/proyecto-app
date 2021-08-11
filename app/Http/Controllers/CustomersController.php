@@ -75,7 +75,7 @@ class CustomersController extends Controller
     {
         //TODO: agregar prestamos del cliente y los pagos de esos prestamos si es posible
         $cliente = Customers::where('id',$id)->where('register_status_db_customer',0)->get();
-        if (empty($cliente)) {
+        if ($cliente->isEmpty()) {
             return response(['Message'=>'Customer 404']);
         }
         return response(['Cliente' => $cliente]);
