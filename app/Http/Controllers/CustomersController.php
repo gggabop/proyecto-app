@@ -17,7 +17,8 @@ class CustomersController extends Controller
     public function index()
     {
         $customers = Customers::where('register_status_db_customer',0)->get();
-        return response(['Clientes'=>$customers],200);
+        return response(['Message'=>'Ok'
+                        ,'Clientes'=>$customers],200);
     }
 
     /**
