@@ -27,7 +27,7 @@ class AuthController extends Controller
         $user = User::create($ValidData);
         $accessToken = $user->createToken('authToken')->accessToken;
         return response([
-            'message' => 'ok',
+            'message' => 'Ok',
             'user' => $user,
             'access_token' => $accessToken
         ]);
@@ -50,7 +50,7 @@ class AuthController extends Controller
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
         return response(['message'=>'ok', 'user'=>['name' => auth()->user()->name,
                                                    'email' => auth()->user()->email,
-                                                   'level' => auth()->user()->level], 
+                                                   'level' => auth()->user()->level],
                         'access_token' => $accessToken]);
 
     }
@@ -61,6 +61,17 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Successfully logged out'
         ]);
+    }
+
+
+    public function check(){
+
+        return response(['message' => 'ok',
+                         'user'=>['name'=> auth()->user()->name,
+                                  'email'=> auth()->user()->email,
+                                  'level'=> auth()->user()->level,
+                                 ]]);
+
     }
 
 }

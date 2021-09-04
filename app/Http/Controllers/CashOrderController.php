@@ -20,7 +20,7 @@ class CashOrderController extends Controller
         if ($cashOrders->isEmpty()) {
             return response(['Message'=>'No hay pedidos'],404);
         }
-        return response(['Pedidos'=>$cashOrders],200);
+        return response(['message'=> 'Ok','pedidos'=>$cashOrders],200);
     }
 
     /**
@@ -51,9 +51,9 @@ class CashOrderController extends Controller
                             'action_aud'=>'creacion pedido'];
         $auditoria = new Audit($datosAuditoria);
         $auditoria->save();
-        return response(['Message'=>'Pedido Agregado',
-                         'Amount'=>$ValidData['amount_cash_order'],
-                         'Customer'=>$customer->name_customer]
+        return response(['message'=>'Ok',
+                         'amount'=>$ValidData['amount_cash_order'],
+                         'customer'=>$customer->name_customer]
                          ,200);
     }
 
@@ -73,8 +73,8 @@ class CashOrderController extends Controller
         if (empty($customer)) {
             return response(['Message'=>'Cliente no existe']);
         }
-        return response(['CashOrder'=>$cashOrder,
-                         'Customer'=>$customer->name_customer]);
+        return response(['pedido'=>$cashOrder,
+                         'cliente'=>$customer]);
     }
 
     /**
@@ -135,7 +135,7 @@ class CashOrderController extends Controller
         $auditoria = new Audit($datosAuditoria);
         $auditoria->save();
         //respuesta de la eliminacion del registro
-        return response(['Message' => 'Deleted CashOrder',
+        return response(['message' => 'Ok',
                          'CashOrder' => $cashOrder->id]);
     }
 }

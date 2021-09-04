@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Audit;
 use App\Models\Customers;
+use App\Models\Loans;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -17,8 +18,8 @@ class CustomersController extends Controller
     public function index()
     {
         $customers = Customers::where('register_status_db_customer',0)->get();
-        return response(['Message'=>'Ok'
-                        ,'Clientes'=>$customers],200);
+        return response(['message'=>'Ok'
+                        ,'clientes'=>$customers],200);
     }
 
     /**
@@ -62,8 +63,8 @@ class CustomersController extends Controller
                             'action_aud'=>'creacion cliente'];
         $auditoria = new Audit($datosAuditoria);
         $auditoria->save();
-        return response(['Message'=>'Cliente Agregado',
-                         'Data'=>$ValidData],200);
+        return response(['message'=>'Ok',
+                         'cliente'=>$ValidData],200);
     }
 
     /**
@@ -76,10 +77,13 @@ class CustomersController extends Controller
     {
         //TODO: agregar prestamos del cliente y los pagos de esos prestamos si es posible
         $cliente = Customers::where('id',$id)->where('register_status_db_customer',0)->get();
+        $prestamos = Loans::where('fk_id_cliente',$id)->where('register_status_db_loan',0)->get();
         if ($cliente->isEmpty()) {
             return response(['Message'=>'Customer 404']);
         }
-        return response(['Cliente' => $cliente]);
+        return response(['message' => 'Ok',
+                         'cliente' => $cliente,
+                         'prestamos' => $prestamos]);
 
     }
 
@@ -125,7 +129,8 @@ class CustomersController extends Controller
                             'action_aud'=>'actualizacion cliente'];
         $auditoria = new Audit($datosAuditoria);
         $auditoria->save();
-        return response(['cliente' => $cliente]);
+        return response(['message' => 'Ok',
+                        'cliente' => $cliente]);
     }
 
     /**
@@ -147,7 +152,7 @@ class CustomersController extends Controller
                             'action_aud'=>'borrado de cliente'];
         $auditoria = new Audit($datosAuditoria);
         $auditoria->save();
-        return response(['Message' => 'Deleted Customer',
-                         'Cliente' => $cliente->name_customer]);
+        return response(['message' => 'Ok',
+                         'cliente' => $cliente->name_customer]);
     }
 }

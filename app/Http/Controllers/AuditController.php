@@ -15,7 +15,7 @@ class AuditController extends Controller
     public function index()
     {
         $auditorias = Audit::all();
-        return response(['audits'=>$auditorias]);
+        return response(['message'=>'Ok', 'auditorias'=>$auditorias]);
     }
 
     /**

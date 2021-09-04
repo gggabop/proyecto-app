@@ -26,7 +26,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
 Route::group([
     'middleware' => 'auth:api'
   ], function() {
@@ -39,4 +38,5 @@ Route::group([
       Route::resource('/loans', LoansController::class)->middleware('role:admin|prestamista|secretaria');
       Route::resource('/payments', PaymentsController::class)->middleware('role:admin|prestamista|secretaria');
       Route::resource('/diary', DiaryController::class)->middleware('role:admin|prestamista');
+      Route::get('/check',  [AuthController::class, 'check']);
   });
