@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Audit;
 use App\Models\CashOrder;
 use App\Models\Customers;
+use App\Models\Loans;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 class CashOrderController extends Controller
@@ -137,6 +138,36 @@ class CashOrderController extends Controller
         $auditoria = new Audit($datosAuditoria);
         $auditoria->save();
         //respuesta de la eliminacion del registro
+        return response(['message' => 'Ok',
+                         'CashOrder' => $cashOrder->id]);
+    }
+    public function addLoan($id){
+        $cashOrder = CashOrder::find($id);
+        if (empty($cashOrder)) {
+            return response(['Message'=>'Pedido no existe']);
+        }
+        $validator = [
+            'fk_id_cliente' => $cashOrder->fk_customer_id,
+            'fk_id_cashOrder' => $cashOrder->id,
+            'amount_loan' => $cashOrder->amount_cash_order,
+            'date_start_loan'=> date('Y-m-d'),
+            'date_pay_loan'=> date('Y-m-d'),
+            'interest_rate_loan'=>25
+        ];
+        $customer = Customers::where('id',$cashOrder->fk_customer_id)->where('register_status_db_customer',0)->first();
+        if (empty($customer)) {
+            return response(['Message'=> 'Cliente no existe'],404);
+        }
+        $ValidData=$validator;
+        $loans = new Loans($ValidData);
+        $loans->save();
+        $datosAuditoria = ['description_aud'=> 'creacion de prestamo desde pedido para cliente:'.$customer->name_customer,
+                            'fk_id_user'=>auth()->user()->id,
+                            'action_aud'=>'creacion prestamo'];
+        $auditoria = new Audit($datosAuditoria);
+        $auditoria->save();
+        $cashOrder->status_cash_order = 1;
+        $cashOrder->save();
         return response(['message' => 'Ok',
                          'CashOrder' => $cashOrder->id]);
     }
