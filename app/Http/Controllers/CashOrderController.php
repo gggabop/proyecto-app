@@ -73,7 +73,8 @@ class CashOrderController extends Controller
         if (empty($customer)) {
             return response(['Message'=>'Cliente no existe']);
         }
-        return response(['pedido'=>$cashOrder,
+        return response(['message'=>'Ok',
+                         'pedido'=>$cashOrder,
                          'cliente'=>$customer]);
     }
 
@@ -109,7 +110,8 @@ class CashOrderController extends Controller
                             'action_aud'=>'actualizacion pedido'];
         $auditoria = new Audit($datosAuditoria);
         $auditoria->save();
-        return response(['CashOrder' => $cashOrder]);
+        return response(['message'=>'Ok'
+                        ,'pedido' => $cashOrder]);
     }
 
     /**
