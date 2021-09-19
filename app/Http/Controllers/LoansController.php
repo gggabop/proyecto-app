@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Audit;
 use App\Models\Customers;
-use App\Models\loans;
+use App\Models\Loans;
+use App\Models\Payments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,11 +18,11 @@ class LoansController extends Controller
      */
     public function index()
     {
-        $loans = loans::where('register_status_db_loan',0)->get();
+        $loans = Loans::where('register_status_db_loan',0)->get();
         if ($loans->isEmpty()) {
             return response(['Message'=>'No hay Prestamos'],404);
         }
-        return response(['Pedidos'=>$loans],200);
+        return response(['message'=>'Ok','prestamos'=>$loans],200);
     }
 
     /**
@@ -55,14 +56,15 @@ class LoansController extends Controller
                 return response(['Message'=> 'Cliente no existe'],404);
             }
             $ValidData=$validator->validated();
-            $loans = new loans($ValidData);
+            $ValidData['amount_rest_loan'] = $ValidData['amount_loan'];
+            $loans = new Loans($ValidData);
             $loans->save();
             $datosAuditoria = ['description_aud'=> 'creacion de prestamo para cliente:'.$customer->name_customer,
                                 'fk_id_user'=>auth()->user()->id,
                                 'action_aud'=>'creacion prestamo'];
             $auditoria = new Audit($datosAuditoria);
             $auditoria->save();
-            return response(['Message'=>'Prestamo Agregado',
+            return response(['message'=>'Ok',
                              'Data'=>$ValidData],200);
 
     }
@@ -75,12 +77,22 @@ class LoansController extends Controller
      */
     public function show($id)
     {
-        $loan = loans::where('id',$id)->where('register_status_db_loan',0)->get();
-        if ($loan->isEmpty()) {
-            return response(['Message'=>'Loan 404']);
+        $loan = Loans::find($id);
+        // if ($loan->isEmpty()) {
+        //     return response(['Message'=>'Loan 404']);
+        // }
+        $customer=Customers::where('id',$loan->fk_id_cliente)->where('register_status_db_customer',0)->first();
+        if (empty($customer)) {
+            return response(['Message'=>'Cliente no existe']);
         }
-        return response(['Prestamo' => $loan]);
-    }
+        $pagos=Payments::where('fk_id_loan',$loan->id)->where('register_status_db_payment', 0)->get();
+        return response(['message'=>'Ok',
+                         'cliente'=>$customer,
+                        'prestamo' => $loan,
+                        'pagos'=>$pagos
+                        ]);
+// 'pagos'=>$pagos
+                    }
 
     /**
      * Show the form for editing the specified resource.
@@ -98,7 +110,7 @@ class LoansController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $Loan=loans::find($id);
+        $Loan=Loans::find($id);
         if (empty($Loan)) {
             return response(['Message'=>'Prestamo no existe'],404);
         }
@@ -126,7 +138,7 @@ class LoansController extends Controller
                                 'action_aud'=>'Actualizacion prestamo'];
         $auditoria = new Audit($datosAuditoria);
         $auditoria->save();
-        return response(['Prestamo' => $Loan]);
+        return response(['message'=>'Ok','prestamo' => $Loan]);
     }
 
     /**
@@ -137,7 +149,7 @@ class LoansController extends Controller
      */
     public function destroy($id)
     {
-        $loan = loans::find($id);
+        $loan = Loans::find($id);
         if (empty($loan)) {
             return response(['Message'=>'Prestamo no existe'],404);
         }
@@ -148,7 +160,7 @@ class LoansController extends Controller
                             'action_aud'=>'borrado de prestamo'];
         $auditoria = new Audit($datosAuditoria);
         $auditoria->save();
-        return response(['Message' => 'Deleted Loan',
-                         'Loan' => $loan->id]);
+        return response(['message' => 'Ok',
+                         'prestamo' => $loan->id]);
     }
 }

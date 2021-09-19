@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Customer;
 use App\Models\Audit;
 use App\Models\Customers;
 use App\Models\Diary;
@@ -23,7 +24,7 @@ class DiaryController extends Controller
         if ($notes->isEmpty()) {
             return response(['Message'=>'No hay Notas'],404);
         }
-        return response(['Notas'=>$notes],200);
+        return response(['message'=>'Ok','notas'=>$notes],200);
     }
 
     /**
@@ -78,8 +79,8 @@ class DiaryController extends Controller
         $auditoria = new Audit($datosAuditoria);
         $auditoria->save();
         // Envia una respuesta
-        return response(['Message'=>'Nota Agenda Agregada',
-                         'Data'=>$ValidData],200);
+        return response(['message'=>'Ok',
+                         'nota'=>$ValidData],200);
 
     }
 
@@ -95,7 +96,12 @@ class DiaryController extends Controller
         if (empty($note)) {
             return response(['Message'=>'Note 404'],404);
         }
-        return response(['Data' => $note]);
+        $customer = Customers::where('id', $note->id_fk_customer)->first();
+        if ($note->id_fk_loan){
+            $loan = Loans::where('id', $note->id_fk_customer)->first();
+            return response(['message'=>'Ok','nota' => $note, 'cliente' => $customer, 'prestamo' => $loan]);
+        }
+        return response(['message'=>'Ok','nota' => $note, 'cliente' => $customer]);
     }
 
     /**
@@ -156,8 +162,8 @@ class DiaryController extends Controller
         $auditoria = new Audit($datosAuditoria);
         $auditoria->save();
         // Envia una respuesta
-        return response(['Message'=>'Nota Agenda Actualizada',
-                         'Data'=>$note],200);
+        return response(['message'=>'Ok',
+                         'nota'=>$note],200);
 
     }
 
@@ -180,7 +186,7 @@ class DiaryController extends Controller
                             'action_aud'=>'borrado de agenda'];
         $auditoria = new Audit($datosAuditoria);
         $auditoria->save();
-        return response(['Message' => 'Deleted note',
-                         'note' => $note->id]);
+        return response(['message' => 'Ok',
+                         'nota' => $note->id]);
     }
 }

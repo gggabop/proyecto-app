@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Customer;
 use App\Models\Audit;
 use App\Models\Loans;
 use App\Models\Payments;
@@ -21,7 +22,7 @@ class PaymentsController extends Controller
         if ($payments->isEmpty()) {
             return response(['Message'=>'No hay Pagos'],404);
         }
-        return response(['Pagos'=>$payments],200);
+        return response(['message'=>'Ok','pagos'=>$payments],200);
     }
 
     /**
@@ -60,8 +61,8 @@ class PaymentsController extends Controller
                             'action_aud'=>'creacion pago'];
         $auditoria = new Audit($datosAuditoria);
         $auditoria->save();
-        return response(['Message'=>'Pago Agregado',
-                         'Data'=>$ValidData],200);
+        return response(['message'=>'Ok',
+                         'data'=>$ValidData],200);
     }
 
     /**
@@ -76,7 +77,8 @@ class PaymentsController extends Controller
         if ($payment->isEmpty()) {
             return response(['Message'=>'Pago 404']);
         }
-        return response(['Prestamo' => $payment]);
+        $loan = Loans::where('id', $payment[0]['fk_id_loan'])->get();
+        return response(['message'=>'Ok','pago' => $payment, 'prestamo' => $loan]);
     }
 
     /**
@@ -119,8 +121,8 @@ class PaymentsController extends Controller
                             'action_aud'=>'actualizacion pago'];
         $auditoria = new Audit($datosAuditoria);
         $auditoria->save();
-        return response(['Message'=>'Pago Actualizado',
-                         'Data'=>$ValidData],200);
+        return response(['message'=>'Ok',
+                         'data'=>$ValidData],200);
     }
 
     /**
@@ -142,7 +144,7 @@ class PaymentsController extends Controller
                             'action_aud'=>'borrado de pago'];
         $auditoria = new Audit($datosAuditoria);
         $auditoria->save();
-        return response(['Message' => 'Deleted Payment',
-                         'Payment' => $payment->serial_payment]);
+        return response(['message' => 'Ok',
+                         'pago' => $payment->serial_payment]);
     }
 }
