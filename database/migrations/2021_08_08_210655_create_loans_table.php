@@ -17,7 +17,7 @@ class CreateLoansTable extends Migration
             $table->id();
             $table->foreignId('fk_id_customer')->references('id')->on('customers');
             $table->foreignId('fk_id_cashOrder')->references('id')->on('cash_orders')->nullable();
-            $table->integer('status_loan');
+            $table->integer('status_loan')->nullable();
             $table->double('amount_loan',20,2);
             $table->double('amount_rest_loan',20,2);
             $table->double('debt_loan',20,2);
