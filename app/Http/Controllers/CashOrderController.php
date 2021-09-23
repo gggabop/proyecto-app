@@ -17,7 +17,7 @@ class CashOrderController extends Controller
      */
     public function index()
     {
-        $cashOrders = CashOrder::where('register_status_db_cashOrder',null)->get();
+        $cashOrders = CashOrder::where('register_status_db_cashOrder',0)->get();
         if ($cashOrders->isEmpty()) {
             return response(['Message'=>'No hay pedidos'],404);
         }
