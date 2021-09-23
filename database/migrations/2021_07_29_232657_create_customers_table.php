@@ -22,7 +22,7 @@ class CreateCustomersTable extends Migration
             $table->text('extra_address_customer');
             $table->double('cellphone_customer');
             $table->double('extra_cellphone_customer');
-            $table->boolean('register_status_db_customer')->default(0);;
+            $table->boolean('register_status_db_customer')->nullable();
             $table->timestamps();
         });
     }

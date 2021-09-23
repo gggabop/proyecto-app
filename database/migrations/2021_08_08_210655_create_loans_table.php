@@ -24,7 +24,7 @@ class CreateLoansTable extends Migration
             $table->date('date_start_loan');
             $table->date('date_pay_loan');
             $table->integer('interest_rate_loan');
-            $table->boolean('register_status_db_loan')->default(0);
+            $table->boolean('register_status_db_loan')->nullable();
             $table->timestamps();
         });
     }
