@@ -56,6 +56,7 @@ class LoansController extends Controller
                 return response(['Message'=> 'Cliente no existe'],404);
             }
             $ValidData=$validator->validated();
+            $ValidData['amount_rest_loan'] = $ValidData['amount_loan'];
             $loans = new Loans($ValidData);
             $loans->save();
             $datosAuditoria = ['description_aud'=> 'creacion de prestamo para cliente:'.$customer->name_customer,
@@ -84,7 +85,7 @@ class LoansController extends Controller
         if (empty($customer)) {
             return response(['Message'=>'Cliente no existe']);
         }
-        $pagos=Payments::where('fk_id_loan',$loan->id)->where('register_status_db_payment', 0);
+        $pagos=Payments::where('fk_id_loan',$loan->id)->where('register_status_db_payment', 0)->get();
         return response(['message'=>'Ok',
                          'cliente'=>$customer,
                         'prestamo' => $loan,

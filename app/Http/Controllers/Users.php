@@ -18,7 +18,7 @@ class Users extends Controller
     public function index()
     {
         $users = User::all();
-        return response(['Usuarios'=>$users]);
+        return response(['message'=>'Ok','usuarios'=>$users]);
     }
 
     /**
@@ -40,7 +40,7 @@ class Users extends Controller
         if (empty($user)) {
             return response(['Message'=>'User 404'],404);
         }
-        return response(['User' => $user]);
+        return response(['message'=>'Ok','usuario' => $user]);
     }
 
     /**
@@ -58,7 +58,7 @@ class Users extends Controller
         }
             $validatedData = Validator::make($request->all(), [
                 'name' => 'required|max:255',
-                'email' => 'required|email|unique:users',
+                'email' => 'required|email',
                 'password' => 'required|confirmed',
                 'level' => ['required' ,'string' , new userLevel]
             ]);
@@ -71,7 +71,8 @@ class Users extends Controller
             $ValidData['password'] = Hash::make($request->password);
             $user->update($ValidData);
             return response([
-                'user' => $user
+                'message' => 'Ok',
+                'usuario' => $user
             ]);
     }
 
@@ -88,6 +89,6 @@ class Users extends Controller
             return response(['Message'=>'User 404'],404);
         }
         $user->delete();
-        return response(['Message' => 'Usuario Eliminado']);
+        return response(['message' => 'Ok']);
     }
 }
