@@ -16,7 +16,7 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('fk_id_loan')->references('id')->on('loans');
-            $table->float('amount_payment');
+            $table->double('amount_payment',20,2);
             $table->date('date_payment');
             $table->text('serial_payment');
             $table->boolean('register_status_db_payments');

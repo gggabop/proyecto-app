@@ -16,12 +16,12 @@ class CreateCustomersTable extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('name_customer');
-            $table->float('cedula_customer', 10, 0)->unique();
+            $table->double('cedula_customer');
             $table->text('address_work_customer');
             $table->text('address_home_customer');
             $table->text('extra_address_customer');
-            $table->float('cellphone_customer');
-            $table->float('extra_cellphone_customer');
+            $table->double('cellphone_customer');
+            $table->double('extra_cellphone_customer');
             $table->boolean('register_status_db_customer');
             $table->timestamps();
         });
