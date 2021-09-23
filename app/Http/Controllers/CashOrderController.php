@@ -152,7 +152,7 @@ class CashOrderController extends Controller
             'amount_loan' => $cashOrder->amount_cash_order,
             'date_start_loan'=> date('Y-m-d'),
             'date_pay_loan'=> date('Y-m-d'),
-            'interest_rate_loan'=>25
+            'interest_rate_loan'=>15
         ];
         $customer = Customers::where('id',$cashOrder->fk_customer_id)->where('register_status_db_customer',0)->first();
         if (empty($customer)) {

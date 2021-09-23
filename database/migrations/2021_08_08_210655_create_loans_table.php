@@ -15,7 +15,7 @@ class CreateLoansTable extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('fk_id_customer')->references('id')->on('customers');
+            $table->foreignId('fk_id_cliente')->references('id')->on('customers');
             $table->foreignId('fk_id_cashOrder')->references('id')->on('cash_orders')->nullable();
             $table->integer('status_loan')->nullable();
             $table->double('amount_loan',20,2);
