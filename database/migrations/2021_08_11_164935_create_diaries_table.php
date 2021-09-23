@@ -19,7 +19,7 @@ class CreateDiariesTable extends Migration
             $table->foreignId('id_fk_loan')->references('id')->on('loans')->nullable();
             $table->text('note');
             $table->integer('type_note');
-            $table->boolean('register_status_db_diary')->nullable();
+            $table->integer('register_status_db_diary')->default(0);
             $table->timestamps();
         });
     }
