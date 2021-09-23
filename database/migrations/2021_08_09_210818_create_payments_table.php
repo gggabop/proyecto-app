@@ -19,7 +19,7 @@ class CreatePaymentsTable extends Migration
             $table->double('amount_payment',20,2);
             $table->date('date_payment');
             $table->text('serial_payment');
-            $table->boolean('register_status_db_payments');
+            $table->boolean('register_status_db_payments')->default(0);;
             $table->timestamps();
         });
     }
