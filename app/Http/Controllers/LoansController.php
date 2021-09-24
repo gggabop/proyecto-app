@@ -81,7 +81,7 @@ class LoansController extends Controller
         // if ($loan->isEmpty()) {
         //     return response(['Message'=>'Loan 404']);
         // }
-        $customer=Customers::where('id',$loan->fk_id_cliente)->where('register_status_db_customer',0)->first();
+        $customer=Customers::where('id',$loan->fk_id_cliente)->first();
         if (empty($customer)) {
             return response(['Message'=>'Cliente no existe']);
         }

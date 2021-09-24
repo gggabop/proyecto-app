@@ -156,7 +156,7 @@ class CashOrderController extends Controller
             'date_pay_loan'=> date('Y-m-d'),
             'interest_rate_loan'=>15
         ];
-        $customer = Customers::where('id',$cashOrder->fk_customer_id)->where('register_status_db_customer',0)->first();
+        $customer = Customers::where('id',$cashOrder->fk_customer_id)->first();
         if (empty($customer)) {
             return response(['Message'=> 'Cliente no existe'],404);
         }
