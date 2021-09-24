@@ -148,7 +148,7 @@ class CashOrderController extends Controller
         }
         $validator = [
             'fk_id_cliente' => $cashOrder->fk_customer_id,
-            'fk_id_cashOrder' => $cashOrder->id,
+            'fk_id_cashorder' => $cashOrder->id,
             'amount_loan' => $cashOrder->amount_cash_order,
             'amount_rest_loan' => $cashOrder->amount_cash_order,
             'debt_loan' => 0,

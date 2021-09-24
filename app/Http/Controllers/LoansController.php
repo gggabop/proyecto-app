@@ -42,7 +42,7 @@ class LoansController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'fk_id_cliente' => 'required|numeric',
-                'fk_id_cashOrder' => 'numeric',
+                'fk_id_cashorder' => 'numeric',
                 'amount_loan' => 'required|numeric',
                 'date_start_loan'=> 'required|date',
                 'date_pay_loan'=> 'required|date',
@@ -116,7 +116,7 @@ class LoansController extends Controller
         }
         $validator = Validator::make($request->all(), [
             'fk_id_cliente' => 'required|numeric',
-            'fk_id_cashOrder' => 'numeric',
+            'fk_id_cashorder' => 'numeric',
             'amount_loan' => 'required|numeric',
             'amount_rest_loan' => 'numeric',
             'debt_loan' => 'numeric',

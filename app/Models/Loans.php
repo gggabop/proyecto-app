@@ -11,7 +11,7 @@ class Loans extends Model
 
     protected $fillable = [
         "fk_id_cliente",
-        "fk_id_cashOrder",
+        "fk_id_cashorder",
         "status_loan",
         "amount_loan",
         "amount_rest_loan",
