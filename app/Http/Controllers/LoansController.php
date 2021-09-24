@@ -127,7 +127,7 @@ class LoansController extends Controller
         if ($validator->stopOnFirstFailure()->fails()){
             return response(['errors' => $validator->errors()]);
         }
-        $customer = Customers::where('id',$Loan->fk_id_cliente)->where('register_status_db_customer',0)->first();
+        $customer = Customers::where('id',$Loan->fk_id_cliente)->first();
         if (empty($customer)) {
             return response(['Message'=> 'Cliente no existe'],404);
         }

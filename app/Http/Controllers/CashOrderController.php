@@ -70,7 +70,7 @@ class CashOrderController extends Controller
         if (empty($cashOrder)) {
             return response(['Message'=>'Pedido no existe']);
         }
-        $customer=Customers::where('id',$cashOrder->fk_customer_id)->where('register_status_db_customer',0)->first();
+        $customer=Customers::where('id',$cashOrder->fk_customer_id)->first();
         if (empty($customer)) {
             return response(['Message'=>'Cliente no existe']);
         }
@@ -100,7 +100,7 @@ class CashOrderController extends Controller
         if ($validator->stopOnFirstFailure()->fails()){
             return response(['errors' => $validator->errors()]);
         }
-        $customer = Customers::where('id',$cashOrder->fk_customer_id)->where('register_status_db_customer',0)->first();
+        $customer = Customers::where('id',$cashOrder->fk_customer_id)->first();
         if (empty($customer)) {
             return response(['Message'=>'Cliente No Exite'],404);
         }
