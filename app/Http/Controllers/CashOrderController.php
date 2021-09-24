@@ -151,6 +151,7 @@ class CashOrderController extends Controller
             'fk_id_cashOrder' => $cashOrder->id,
             'amount_loan' => $cashOrder->amount_cash_order,
             'amount_rest_loan' => $cashOrder->amount_cash_order,
+            'debt_loan' => 0,
             'date_start_loan'=> date('Y-m-d'),
             'date_pay_loan'=> date('Y-m-d'),
             'interest_rate_loan'=>15
