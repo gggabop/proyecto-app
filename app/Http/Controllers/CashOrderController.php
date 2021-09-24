@@ -173,4 +173,23 @@ class CashOrderController extends Controller
         return response(['message' => 'Ok',
                          'CashOrder' => $cashOrder->id]);
     }
+    public function denyLoan($id){
+        $cashOrder = CashOrder::find($id);
+        if (empty($cashOrder)) {
+            return response(['Message'=>'Pedido no existe']);
+        }
+        $customer = Customers::where('id',$cashOrder->fk_customer_id)->where('register_status_db_customer',0)->first();
+        if (empty($customer)) {
+            return response(['Message'=> 'Cliente no existe'],404);
+        }
+        $datosAuditoria = ['description_aud'=> 'negar prestamo desde pedido para cliente:'.$customer->name_customer,
+                            'fk_id_user'=>auth()->user()->id,
+                            'action_aud'=>'negar prestamo'];
+        $auditoria = new Audit($datosAuditoria);
+        $auditoria->save();
+        $cashOrder->status_cash_order = 2;
+        $cashOrder->save();
+        return response(['message' => 'Ok',
+                         'CashOrder' => $cashOrder->id]);
+    }
 }
