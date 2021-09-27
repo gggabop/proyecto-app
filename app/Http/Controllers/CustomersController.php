@@ -42,7 +42,7 @@ class CustomersController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name_customer' => array('required',
-                            'regex:/(^([a-zA-Z ]+)(\d+)?$)/u'),
+                            'regex:/(^([a-zA-Záéíóú ]+)(\d+)?$)/u'),
             'cedula_customer' => 'required|numeric|unique:customers',
             'address_work_customer' => array('required',
                                              'regex:/(^([a-zA-Z0-9áéíóú ]+)(\d+)?$)/u'),
