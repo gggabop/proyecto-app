@@ -42,15 +42,15 @@ class CustomersController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name_customer' => array('required',
-                            'regex:/(^([a-zA-Z ]+)(\d+)?$)/u'),
+                            'regex:/(^([a-zA-Záéíóú ]+)(\d+)?$)/u'),
             'cedula_customer' => 'required|numeric|unique:customers',
             'address_work_customer' => array('required',
-                                             'regex:/(^([a-zA-Z0-9 ]+)(\d+)?$)/u'),
+                                             'regex:/(^([a-zA-Z0-9áéíóú ]+)(\d+)?$)/u'),
             'address_home_customer' => array('required',
-                                            'regex:/(^([a-zA-Z0-9 ]+)(\d+)?$)/u'),
-            'extra_address_customer'=> array('regex:/(^([a-zA-Z0-9 ]+)(\d+)?$)/u'),
+                                            'regex:/(^([a-zA-Z0-9áéíóú ]+)(\d+)?$)/u'),
+            'extra_address_customer'=> array('regex:/(^([a-zA-Z0-9áéíóú ]+)(\d+)?$)/u'),
             'cellphone_customer'=> 'required|numeric',
-            'extra_cellphone_customer'=> 'numeric',
+            'extra_cellphone_customer'=> 'required|numeric',
         ]);
         if ($validator->stopOnFirstFailure()->fails()){
             return response(['errors' => $validator->errors()]);
@@ -109,15 +109,15 @@ class CustomersController extends Controller
         }
         $validator = Validator::make($request->all(), [
             'name_customer' => array('required',
-                            'regex:/(^([a-zA-Z ]+)(\d+)?$)/u'),
+                            'regex:/(^([a-zA-Záéíóú ]+)(\d+)?$)/u'),
             'cedula_customer' => 'required|numeric',
             'address_work_customer' => array('required',
-                                             'regex:/(^([a-zA-Z0-9 ]+)(\d+)?$)/u'),
+                                             'regex:/(^([a-zA-Z0-9áéíóú ]+)(\d+)?$)/u'),
             'address_home_customer' => array('required',
-                                            'regex:/(^([a-zA-Z0-9 ]+)(\d+)?$)/u'),
-            'extra_address_customer'=> array('regex:/(^([a-zA-Z0-9 ]+)(\d+)?$)/u'),
+                                            'regex:/(^([a-zA-Z0-9áéíóú ]+)(\d+)?$)/u'),
+            'extra_address_customer'=> array('regex:/(^([a-zA-Z0-9áéíóú ]+)(\d+)?$)/u'),
             'cellphone_customer'=> 'required|numeric',
-            'extra_cellphone_customer'=> 'numeric',
+            'extra_cellphone_customer'=> 'required|numeric',
         ]);
         if ($validator->stopOnFirstFailure()->fails()){
             return response(['errors' => $validator->errors()]);

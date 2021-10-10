@@ -49,11 +49,18 @@ class PaymentsController extends Controller
         if ($validator->stopOnFirstFailure()->fails()){
             return response(['errors' => $validator->errors()]);
         }
-        $loan = Loans::where('id',$request->fk_id_loan)->where('register_status_db_loan',0)->first();
+        $loan = Loans::where('id',$request->fk_id_loan)->where('register_status_db_loan',0)->where('amount_rest_loan' !== 0)->first();
         if (empty($loan)) {
             return response(['Message'=> 'Prestamo no existe'],404);
         }
         $ValidData=$validator->validated();
+        $variable = $loan->amount_rest_loan - $ValidData['amount_payment'];
+        if ($variable >= 0) {
+            $loan->amount_rest_loan = $variable;
+            $loan->save();
+        }else{
+            return response(['errors' => 'Limite de pago excedido...']);
+        }
         $payment = new Payments($ValidData);
         $payment->save();
         $datosAuditoria = ['description_aud'=> 'creacion de pago para pestamo:'.$loan->id,

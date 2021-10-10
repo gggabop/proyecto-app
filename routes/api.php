@@ -37,6 +37,7 @@ Route::group([
       Route::resource('/cashorder', CashOrderController::class)->middleware('role:admin|secretaria');
       Route::resource('/loans', LoansController::class)->middleware('role:admin|prestamista|secretaria');
       Route::get('/cashorderAdd/{id}',[CashOrderController::class, 'addLoan'])->middleware('role:admin|prestamista|secretaria');
+      Route::get('/cashorderDeny/{id}',[CashOrderController::class, 'denyLoan'])->middleware('role:admin|prestamista|secretaria');
       Route::resource('/payments', PaymentsController::class)->middleware('role:admin|prestamista|secretaria');
       Route::resource('/diary', DiaryController::class)->middleware('role:admin|prestamista');
       Route::get('/check',  [AuthController::class, 'check']);

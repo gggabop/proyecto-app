@@ -42,7 +42,7 @@ class LoansController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'fk_id_cliente' => 'required|numeric',
-                'fk_id_cashOrder' => 'numeric',
+                'fk_id_cashorder' => 'numeric',
                 'amount_loan' => 'required|numeric',
                 'date_start_loan'=> 'required|date',
                 'date_pay_loan'=> 'required|date',
@@ -81,7 +81,7 @@ class LoansController extends Controller
         // if ($loan->isEmpty()) {
         //     return response(['Message'=>'Loan 404']);
         // }
-        $customer=Customers::where('id',$loan->fk_id_cliente)->where('register_status_db_customer',0)->first();
+        $customer=Customers::where('id',$loan->fk_id_cliente)->first();
         if (empty($customer)) {
             return response(['Message'=>'Cliente no existe']);
         }
@@ -116,7 +116,7 @@ class LoansController extends Controller
         }
         $validator = Validator::make($request->all(), [
             'fk_id_cliente' => 'required|numeric',
-            'fk_id_cashOrder' => 'numeric',
+            'fk_id_cashorder' => 'numeric',
             'amount_loan' => 'required|numeric',
             'amount_rest_loan' => 'numeric',
             'debt_loan' => 'numeric',
@@ -127,7 +127,7 @@ class LoansController extends Controller
         if ($validator->stopOnFirstFailure()->fails()){
             return response(['errors' => $validator->errors()]);
         }
-        $customer = Customers::where('id',$Loan->fk_id_cliente)->where('register_status_db_customer',0)->first();
+        $customer = Customers::where('id',$Loan->fk_id_cliente)->first();
         if (empty($customer)) {
             return response(['Message'=> 'Cliente no existe'],404);
         }
