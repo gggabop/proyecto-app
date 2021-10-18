@@ -49,7 +49,7 @@ class PaymentsController extends Controller
         if ($validator->stopOnFirstFailure()->fails()){
             return response(['errors' => $validator->errors()]);
         }
-        $loan = Loans::where('id',$request->fk_id_loan)->where('amount_rest_loan' !== 0)->first();
+        $loan = Loans::where('id',$request->fk_id_loan)->first();
         if (empty($loan)) {
             return response(['Message'=> 'Prestamo no existe'],404);
         }
