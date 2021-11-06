@@ -41,4 +41,7 @@ Route::group([
       Route::resource('/payments', PaymentsController::class)->middleware('role:admin|prestamista|secretaria');
       Route::resource('/diary', DiaryController::class)->middleware('role:admin|prestamista');
       Route::get('/check',  [AuthController::class, 'check']);
+      Route::get('/prueba',function(){
+        return 'crear nuevo usuario';
+      });
   });
